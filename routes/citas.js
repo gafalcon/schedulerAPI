@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose')
-var Sesion = require('../models/Sesion.js')
+var Cita = require('../models/Cita.js')
 var User = require('../models/Usuario.js')
 
-/* GET ALL SESIONS */
+/* GET ALL CITAS */
 router.get('/', function(req, res, next) {
     Sesion.find(function (err, products) {
         if (err) return next(err);
@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-/* GET SINGLE SESION BY ID */
+/* GET SINGLE CITA BY ID */
 router.get('/:id', function(req, res, next) {
     Sesion.findById(req.params.id, function (err, post) {
         if (err) return next(err);
@@ -20,15 +20,14 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-/* SAVE SESION */
+/* SAVE CITA */
 router.post('/', function(req, res, next) {
-    Sesion.create(req.body)
-        .then((sesion) => res.json(sesion))
-        .catch((err) => res.json(err) )
-
+    Cita.create(req.body)
+        .then((cita) => res.json(cita))
+        .catch((err) => res.json(err))
 });
 
-/* UPDATE SESION */
+/* UPDATE CITA */
 router.put('/:id', function(req, res, next) {
     Sesion.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
@@ -36,7 +35,7 @@ router.put('/:id', function(req, res, next) {
     });
 });
 
-/* DELETE SESION */
+/* DELETE CITA */
 router.delete('/:id', function(req, res, next) {
     Sesion.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) return next(err);

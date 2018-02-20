@@ -11,4 +11,15 @@ var UsuarioSchema = new mongoose.Schema({
     }
 })
 
+UsuarioSchema.statics.findOneOrCreate = function(condition, doc){
+    const self = this
+
+    var promise =  this.findOne(condition)
+        .then((result) => {
+            return (result) ? result : self.create(condition)
+        })
+
+    return promise
+}
+
 module.exports = mongoose.model('Usuario', UsuarioSchema)
