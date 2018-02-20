@@ -7,8 +7,17 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var sessions = require('./routes/sessions.js')
+
+var mongoose = require('mongoose')
+mongoose.Promise = global.Promise
+mongoose.connect(`mongodb://${process.env.DBUSER}:${process.env.DBPASS}@ds123728.mlab.com:23728/scheduler`)
+    .then(() => console.log("DB connection succesful"))
+    .catch((err) => console.log(err))
 
 var app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/sessions', sessions)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
