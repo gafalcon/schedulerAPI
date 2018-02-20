@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var UserSchema = new mongoose.Schema({
     username: String,
-    type: {
+    role: {
         type: [{
             type: String,
             enum: ['estudiante', 'admin', 'profesor']
