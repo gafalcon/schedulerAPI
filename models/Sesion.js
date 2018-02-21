@@ -5,7 +5,7 @@ var SesionSchema = new mongoose.Schema({
     description: String,
     start_date: Date,
     end_date: Date,
-    time_intervals: [{inicio: Date, fin: Date}],
+    time_intervals: [{from: Date, to: Date}],
     duration: Number,
     status: Boolean,
     created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
