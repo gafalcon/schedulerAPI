@@ -12,6 +12,11 @@ router.get('/', function(req, res, next) {
     });
 });
 
+/* GET ALL AVAILABLE SESIONS */
+router.get('/available', function(req, res, next){
+    Sesion.findAvailable().then((sessions) => res.json(sessions)).catch(err => res.json(err))
+})
+
 /* GET SINGLE SESION BY ID */
 router.get('/:id', function(req, res, next) {
     Sesion.findById(req.params.id, function (err, post) {
@@ -22,9 +27,16 @@ router.get('/:id', function(req, res, next) {
 
 /* SAVE SESION */
 router.post('/', function(req, res, next) {
-    Sesion.create(req.body)
-        .then((sesion) => res.json(sesion))
+    Sesion.createWithCitas(req.body).then((ses) => {
+        console.log("hola")
+        res.json(ses)
+    })
         .catch((err) => res.json(err) )
+    // Sesion.create(req.body)
+    //     .then((sesion) => {
+    //         console.log("hola")
+    //         res.json(sesion)
+    //     })
 
 });
 
