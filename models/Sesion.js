@@ -42,15 +42,30 @@ SesionSchema.statics.findAvailable = function(){
 }
 
 SesionSchema.statics.createWithCitas = function(data){
+
+    console.log("create with citas")
     return this.create(data)
         .then((session) => {
             const range = moment.range(session.start_date, session.end_date);
-            const days = Array.from(range.by('days'));
-            // add each schedule according to time intervals
-            const citas = days.map((day) => ({
-                session_id: session.id,
-                date: day.toDate()
-            }))
+            const days = Array.from(range.by('days')).filter((day) => {
+                const d = day.day()
+                return !(d === 0 || d === 6)
+            } );
+
+            const timeranges = session.time_intervals.map((t_interval) => moment.range(t_interval.from, t_interval.to))
+            const arrays = timeranges.map((trange) => Array.from(trange.by('minutes', {step: session.duration}))).reduce((a,b) => a.concat(b), [])
+
+            const citas = days.map((day) => {
+                return arrays.map((time) => {
+                    const date = day.set({'minute': time.get('minute'), second: time.get('second'), hour: time.get('hour')})
+                    return {
+                        session_id: session.id,
+                        date: date.toDate()
+                    }
+                })
+            }).reduce((a,b) => a.concat(b), [])
+
+
             return Cita.create(citas).then((citas) => {
                 console.log("citas creadas")
                 return session

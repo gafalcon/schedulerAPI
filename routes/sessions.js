@@ -32,11 +32,6 @@ router.post('/', function(req, res, next) {
         res.json(ses)
     })
         .catch((err) => res.json(err) )
-    // Sesion.create(req.body)
-    //     .then((sesion) => {
-    //         console.log("hola")
-    //         res.json(sesion)
-    //     })
 
 });
 
